@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}List food{% endblock %}
+{% block content %}
+<h1>List surplus food</h1>
+<form method="post" class="card form">
+  <label>Food item <input name="food_item" placeholder="e.g. Vegetable biryani" required></label>
+  <div class="split">
+    <label>Quantity <input type="number" name="quantity" min="1" required></label>
+    <label>Unit
+      <select name="unit"><option>kg</option><option>pcs</option><option>boxes</option><option>litres</option></select>
+    </label>
+  </div>
+  <label>Pickup address <input name="pickup_address" required></label>
+  <label>Safe to eat until <input type="date" name="expiry_date" min="{{ today }}" required></label>
+  <button class="btn">List this food</button>
+</form>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Available food{% endblock %}
+{% block content %}
+<h1>Available food</h1>
+<form method="get" class="search">
+  <input name="q" value="{{ q }}" placeholder="Search by food or city" aria-label="Search">
+  <button class="btn small">Search</button>
+</form>
+{% if not rows %}
+  <p class="empty">Nothing matches right now. Try a different city or check back soon.</p>
+{% endif %}
+<div class="grid">
+{% for d in rows %}
+  <article class="card item">
+    <span class="chip {{ 'urgent' if d.expiry_date|days_left in ('expires today','1 day left') else '' }}">{{ d.expiry_date|days_left }}</span>
+    <h3>{{ d.food_item }}</h3>
+    <p class="qty">{{ d.quantity }} {{ d.unit }}</p>
+    <p class="muted">{{ d.donor_name }}, {{ d.city }}</p>
+    {% if g.user and g.user.role == 'ngo' %}
+      {% if d.id in requested %}
+        <p class="muted">Requested</p>
+      {% else %}
+        <form method="post" action="{{ url_for('request_donation', did=d.id) }}">
+          <input name="note" placeholder="Note for donor (optional)" maxlength="200">
+          <button class="btn small">Request pickup</button>
+        </form>
+      {% endif %}
+    {% elif not g.user %}
+      <a href="{{ url_for('login') }}" class="muted">Log in as an NGO to request</a>
+    {% endif %}
+  </article>
+{% endfor %}
+</div>
+{% endblock %}

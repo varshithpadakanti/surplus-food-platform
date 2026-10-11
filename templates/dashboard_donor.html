@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Your donations</h1>
+{% if not donations %}
+  <p class="empty">You haven't listed anything yet. <a href="{{ url_for('new_donation') }}">List your first donation</a>.</p>
+{% endif %}
+{% for d in donations %}
+<section class="card row-card">
+  <div class="head">
+    <div>
+      <h3>{{ d.food_item }} <span class="qty">{{ d.quantity }} {{ d.unit }}</span></h3>
+      <p class="muted">{{ d.expiry_date|days_left }} · {{ d.pickup_address }}</p>
+    </div>
+    <span class="chip s-{{ d.status }}">{{ d.status }}</span>
+  </div>
+  {% for r in d.requests %}
+  <div class="req">
+    <span><b>{{ r.ngo_name }}</b>, {{ r.ngo_city }}{% if r.note %}: “{{ r.note }}”{% endif %}</span>
+    <span class="chip s-{{ r.status }}">{{ r.status }}</span>
+    {% if r.status == 'pending' and d.status == 'available' %}
+      <form method="post" action="{{ url_for('update_request', rid=r.id, action='approve') }}"><button class="btn small">Approve</button></form>
+      <form method="post" action="{{ url_for('update_request', rid=r.id, action='reject') }}"><button class="btn small ghost">Decline</button></form>
+    {% elif r.status == 'approved' %}
+      <form method="post" action="{{ url_for('update_request', rid=r.id, action='collect') }}"><button class="btn small">Mark collected</button></form>
+    {% endif %}
+  </div>
+  {% endfor %}
+</section>
+{% endfor %}
+{% endblock %}

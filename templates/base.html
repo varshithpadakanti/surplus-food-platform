@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Surplus{% endblock %} · Surplus Food Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/">Surplus</a>
+  <nav>
+    <a href="{{ url_for('donations') }}">Browse food</a>
+    {% if g.user %}
+      {% if g.user.role == 'donor' %}<a href="{{ url_for('new_donation') }}">List food</a>{% endif %}
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <form method="post" action="{{ url_for('logout') }}"><button class="link">Log out ({{ g.user.name }})</button></form>
+    {% else %}
+      <a href="{{ url_for('login') }}">Log in</a>
+      <a class="btn small" href="{{ url_for('register') }}">Sign up</a>
+    {% endif %}
+  </nav>
+</header>
+<main>
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in msgs %}<p class="flash {{ cat }}" role="status">{{ m }}</p>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<script src="/app.js" defer></script>
+</body>
+</html>

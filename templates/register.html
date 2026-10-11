@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Sign up{% endblock %}
+{% block content %}
+<h1>Create an account</h1>
+<form method="post" class="card form">
+  <label>I am a
+    <select name="role" required>
+      <option value="donor">Donor (restaurant, caterer, shop)</option>
+      <option value="ngo">NGO (collects food)</option>
+    </select>
+  </label>
+  <label>Organisation name <input name="name" required></label>
+  <label>City <input name="city" required></label>
+  <label>Email <input type="email" name="email" required autocomplete="email"></label>
+  <label>Password (6+ characters) <input type="password" name="password" minlength="6" required autocomplete="new-password"></label>
+  <button class="btn">Create account</button>
+</form>
+{% endblock %}

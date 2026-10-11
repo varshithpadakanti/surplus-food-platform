@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Good food shouldn't end up in the bin.</h1>
+  <p class="lead">Restaurants, caterers and shops list what's left over. NGOs claim it before it expires.</p>
+  <div class="row">
+    <a class="btn" href="{{ url_for('register') }}">Donate food</a>
+    <a class="btn ghost" href="{{ url_for('donations') }}">See what's available</a>
+  </div>
+</section>
+
+<section class="ledger" aria-label="Live totals">
+  <div><b data-stat="available">{{ stats.available }}</b><span>available now</span></div>
+  <div><b data-stat="reserved">{{ stats.reserved }}</b><span>reserved by NGOs</span></div>
+  <div><b data-stat="collected">{{ stats.collected }}</b><span>collected</span></div>
+  <div><b data-stat="total">{{ stats.total }}</b><span>donations listed</span></div>
+</section>
+
+<section class="how">
+  <h2>How it works</h2>
+  <ol>
+    <li><b>Donor lists</b> the food, quantity, pickup address and expiry date.</li>
+    <li><b>NGO requests</b> the items it can collect.</li>
+    <li><b>Donor approves</b> one request. The rest are declined automatically.</li>
+    <li><b>Pickup</b> is marked collected, and the totals above update.</li>
+  </ol>
+  <p class="muted">Demo logins: donor@demo.com or ngo@demo.com, password demo1234.</p>
+</section>
+{% endblock %}

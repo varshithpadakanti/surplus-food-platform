@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Your requests</h1>
+{% if not rows %}
+  <p class="empty">No requests yet. <a href="{{ url_for('donations') }}">Browse available food</a>.</p>
+{% endif %}
+{% for r in rows %}
+<section class="card row-card">
+  <div class="head">
+    <div>
+      <h3>{{ r.food_item }} <span class="qty">{{ r.quantity }} {{ r.unit }}</span></h3>
+      <p class="muted">From {{ r.donor_name }}
+        {% if r.status in ('approved', 'collected') %} · Pickup at {{ r.pickup_address }}{% endif %}</p>
+    </div>
+    <span class="chip s-{{ r.status }}">{{ r.status }}</span>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}
