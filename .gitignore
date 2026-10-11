@@ -1,0 +1,5 @@
+surplus.db
+__pycache__/
+.venv/
+.env
+.vercel
